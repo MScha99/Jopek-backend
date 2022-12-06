@@ -36,7 +36,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            
+            pip install coverage
             pip install coveralls
            
       
@@ -47,7 +47,8 @@ jobs:
       - run:
           name: Run tests and generate coverage report
           command: |
-            coverage run --source='.' manage.py test --settings=core.settingstest
+            coverage run manage.py test --settings=core.settingstest
+            coverage report
             coverage html
 
       - run:
