@@ -36,9 +36,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            pip install -r requirements.txt
+            
             pip install coveralls
-            pip install coveralls-lcov
+           
       
       - run:
           name: Running tests
@@ -53,7 +53,7 @@ jobs:
       - run:
           name: Upload test coverage to Coveralls
           command: |
-            coveralls --repo-token $COVERALLS_REPO_TOKEN coverage/lcov.info
+            coveralls --repo-token $COVERALLS_REPO_TOKEN 
       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
