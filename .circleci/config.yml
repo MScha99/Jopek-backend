@@ -35,7 +35,7 @@ jobs:
           # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
       - run:
           name: Running tests
-          command: python3 manage.py test -settings=core.settingstest
+          command: python3 manage.py test --settings=core.settingstest
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
