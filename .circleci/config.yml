@@ -37,7 +37,7 @@ jobs:
           name: Install dependencies
           command: |
             pip install coverage
-            pip install coveralls
+            pip install python-coveralls
            
       
       - run:
@@ -56,7 +56,7 @@ jobs:
       - run:
           name: Upload test coverage to Coveralls
           command: |
-            coveralls
+            COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN coveralls
       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
