@@ -34,8 +34,19 @@ jobs:
           # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
           # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
       - run:
+          name: Install dependencies
+          command: |
+            pip install -r requirements.txt
+            pip install coveralls
+      
+      - run:
           name: Running tests
           command: python3 manage.py test --settings=core.settingstest
+
+      - run:
+          name: Upload test coverage to Coveralls
+          command: |
+            coveralls
       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
