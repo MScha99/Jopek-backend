@@ -38,6 +38,7 @@ jobs:
           command: |
             pip install -r requirements.txt
             pip install coveralls
+            pip install coveralls-lcov
       
       - run:
           name: Running tests
