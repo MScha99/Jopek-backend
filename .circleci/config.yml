@@ -41,12 +41,12 @@ jobs:
       
       - run:
           name: Running tests
-          command: python3 manage.py test --settings=core.settingstest
+          command: python3 manage.py test --settings=core.settingstest --cov tests/
 
       - run:
           name: Upload test coverage to Coveralls
           command: |
-            coveralls
+            coveralls --repo-token $COVERALLS_REPO_TOKEN
       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
