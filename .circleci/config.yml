@@ -50,11 +50,13 @@ jobs:
             coverage run manage.py test --settings=core.settingstest
             coverage report
             coverage html
+      - store_artifacts:
+         path: htmlcov
 
       - run:
           name: Upload test coverage to Coveralls
           command: |
-            coveralls --help --repo-token $COVERALLS_REPO_TOKEN 
+            coveralls --help 
       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
