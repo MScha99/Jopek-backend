@@ -41,7 +41,13 @@ jobs:
       
       - run:
           name: Running tests
-          command: python3 manage.py test --settings=core.settingstest --cov tests/
+          command: python3 manage.py test --settings=core.settingstest 
+
+      - run:
+          name: Run tests and generate coverage report
+          command: |
+            coverage run --source='.' manage.py test --settings=core.settingstest
+            coverage html
 
       - run:
           name: Upload test coverage to Coveralls
