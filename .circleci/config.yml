@@ -36,14 +36,7 @@ jobs:
       - run:
           name: Running tests
           command: python3 manage.py test --settings=core.settingstest
-      - run:
-          name: Install dependencies
-          command: |
-            pip install coveralls
-      - run:
-          name: Upload test coverage to Coveralls
-          command: |
-            coveralls
+      
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
