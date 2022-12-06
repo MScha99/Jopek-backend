@@ -53,7 +53,7 @@ jobs:
       - run:
           name: Upload test coverage to Coveralls
           command: |
-            coveralls --repo-token $COVERALLS_REPO_TOKEN 
+            coveralls --help --repo-token $COVERALLS_REPO_TOKEN 
       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
