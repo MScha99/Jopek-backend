@@ -157,3 +157,16 @@ class JopekTests(TestCase):
         response = client.post('/orderproduct/', data=data2)
         # sprawdzamy, czy otrzymaliśmy odpowiedź 201
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+
+
+    def test_post_order(self):
+      
+        user = User.objects.get(username='admin')
+        client = APIClient()
+        client.force_authenticate(user=user)
+        response = client.get('/profile/')
+        # sprawdzamy, czy otrzymaliśmy odpowiedź 201
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertGreater(len(response.data), 0)
+
