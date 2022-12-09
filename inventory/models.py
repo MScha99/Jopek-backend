@@ -12,9 +12,7 @@ from django.utils import timezone
 from datetime import datetime, date, timedelta
    
 
-
-
-
+#models.py służy do definiowana struktur danych w bazie danych
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
