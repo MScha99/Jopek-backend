@@ -1,6 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+"""
+admin.py w Django służy do rejestrowania modeli w interfejsie administracyjnym Django
+Interfejs administracyjny Django jest wbudowaną funkcjonalnością, która umożliwia zarządzanie zawartością bazy danych za pomocą przeglądarki internetowej
+"""
 
 
 from .models import Category, Product, Comment, Profile, Order, OrderProduct, RentProduct
