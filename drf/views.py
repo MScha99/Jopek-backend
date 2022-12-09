@@ -6,6 +6,9 @@ from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
 from rest_framework.pagination import PageNumberPagination
 
+"""
+views.py służą do definiowania dynamicznie generowanych widoków, które potem przy pomocy url.py są przypisane do okreslonego adresu URL
+"""
 
 class ReadOnly(permissions.BasePermission):
   
