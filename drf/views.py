@@ -89,10 +89,10 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self): 
      order = Order.objects.filter(owner=Profile.objects.get(user=self.request.user)).order_by('id').last()
-     body = f'{self.request.user.username} twoje zamówienie na kwotę {order.price}zł zostało złożone \n'
-     body += f'Adres zamówienia: {order.city} {order.street}, {order.zipcode} \nZakupiono: \n'
+     body = f'Użytkowniku "{self.request.user.username}" twoje zamówienie na kwotę {order.price}zł zostało pomyślnie złożone. \n\n'
+     body += f'Adres zamówienia: {order.city} ul. {order.street}, {order.zipcode} \n\nZakupiono: \n'
      for product in order.OrderProduct.all():
-        body += f'{product.product.name} {product.product.price} zł za sztukę, sztuk: {product.quantity} '
+        body += f'{product.product.name} {product.product.price} zł za sztukę, sztuk: {product.quantity}\n'
 
      
      send_mail(
