@@ -4,7 +4,6 @@ from rest_framework import serializers
 from inventory.models import Product, Category, Comment, Profile, Order, OrderProduct, RentProduct
 from django.contrib.auth.models import User
 from rest_framework.authtoken.views import Token
-
 """
 serializer.py jest używany do konwertowania złożonych typów danych na typ danych mogący być renderowany do formatu JSON
 każda klasa zawiera serializer obsługujący wskazaneny model i określa pola które powinny być reprezentowane

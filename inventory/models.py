@@ -12,9 +12,10 @@ from django.utils import timezone
 from datetime import datetime, date, timedelta
    
 
-#models.py służy do definiowana struktur danych w bazie danych
 
-#model definiujący jakie dane są przechowywane na temat kategorii, do których zaliczane są produkty
+
+
+
 class Category(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
@@ -25,7 +26,6 @@ class Category(models.Model):
     def __str__(self):
      return self.name
 
-#model definiujący jakie dane są przechowywane na temat produktów
 class Product(models.Model):
     name = models.CharField(max_length=100)    
     price = models.IntegerField()
@@ -46,7 +46,7 @@ class Product(models.Model):
      return self.name
 
 
-#model definiujący jakie dane są przechowywane w ramach obsługi systemu komentarzy
+
 class Comment(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     body = models.TextField()
@@ -59,7 +59,7 @@ class Comment(models.Model):
     def __str__(self):
         return 'Comment {} by {}'.format(self.body, self.owner)
 
-#model dziedziczący rozszerzający utworzony automatycznie model User, w celu ułatwienia późniejszej implementacji dodatkowych pól takich jak np "motto"
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
@@ -76,7 +76,6 @@ class Profile(models.Model):
     def __str__(self):
      return self.user.username
 
-#model definiujący jakie dane są przechowywane na temat zamówienia
 class Order(models.Model):  
     owner = models.ForeignKey(Profile, related_name='order', on_delete=models.PROTECT)
     order_date = models.DateField(auto_now_add=True)
@@ -89,15 +88,17 @@ class Order(models.Model):
    
   
 
-    def __str__(self):
-     return self.notes
- 
-   #model definiujący jakie produkty, w jakiej ilości zostały zakupione w ramach danego zamówienia
+    # def __str__(self):
+    #  return self.owner
+    
 class OrderProduct(models.Model):
     id = models.BigAutoField(primary_key = True)
     order = models.ForeignKey(Order, related_name='OrderProduct', on_delete=models.PROTECT)
     product = models.ForeignKey(Product, related_name='OrderProduct',on_delete=models.PROTECT)  
     quantity = models.IntegerField(default=1)
+
+    # def __str__(self):
+    #  return self.id
 
 @receiver(post_save, sender=OrderProduct)
 def create_order_product(sender, instance, created, **kwargs):
@@ -107,7 +108,7 @@ def create_order_product(sender, instance, created, **kwargs):
 
 
 
-#model definiujący które produkty są aktualnie wypożyczone przez którego użytkownika
+
 class RentProduct(models.Model):
     id = models.BigAutoField(primary_key = True)
     owner = models.ForeignKey(Profile, null=True, blank=True, related_name='RentProduct', on_delete=models.PROTECT)

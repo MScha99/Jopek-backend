@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
 from rest_framework.pagination import PageNumberPagination
-
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 """
 views.py służą do definiowania dynamicznie generowanych widoków, które potem przy pomocy url.py są przypisane do okreslonego adresu URL
 """
@@ -16,7 +17,7 @@ class ReadOnly(permissions.BasePermission):
            return request.method in permissions.SAFE_METHODS
        
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 5
+    page_size = 30
     
 
 
@@ -34,7 +35,7 @@ class AllProductsViewSet(viewsets.ModelViewSet):
         Optionally restricts the returned purchases to a given user,
         by filtering against a `product` query parameter in the URL.
         """
-        queryset = Product.objects.all().order_by('id')
+        queryset = Product.objects.all().filter(is_active=True).order_by('id')
         category = self.request.query_params.get('category') 
         rent = self.request.query_params.get('active')
         name = self.request.query_params.get('name')       
@@ -84,10 +85,37 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     authentication_class = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    http_method_names = ['post', 'head']
+    http_method_names = ['post','get', 'head']
+
+    def get_queryset(self): 
+     order = Order.objects.filter(owner=Profile.objects.get(user=self.request.user), id=self.request.data.get('id')).first()
+     body = f'{self.request.user.username} twoje zamówienie na kwotę {order.price}zł zostało złożone \n'
+     body += f'Adres zamówienia: {order.city} {order.street}, {order.zipcode} \n Zakupiono: \n '
+     for product in order.OrderProduct.all():
+        body += f'{product.product.name} {product.product.price} zł za sztukę, sztuk: {product.quantity} '
+
+     
+     send_mail(
+        f'Twoje zamówienie o numerze {order.id} zostało złożone!',
+        body,
+        'djangojopek@gmail.com',
+        ['250601@student.pwr.edu.pl'],
+        fail_silently=False,
+        )
+     return Order.objects.filter(owner=Profile.objects.get(user=self.request.user))#zwróć obiekty gdzie user w modelu zgadza sie z userem z requesta (wymaga tokenu)
     
     def perform_create(self, serializer):     
-          serializer.save(owner=Profile.objects.get(user=self.request.user))
+          order = serializer.save(owner=Profile.objects.get(user=self.id))         
+          #user_email = self.request.user.email
+          user_name = self.request.user.username
+          
+          send_mail(
+        f'Twoje zamówienie o numerze {order.id} zostało złożone!',
+        f'Treść {order.OrderProduct}',
+        'djangojopek@gmail.com',
+        ['250601@student.pwr.edu.pl'],
+        fail_silently=False,
+)
         
 class OrderProductViewSet(viewsets.ModelViewSet):
     ##powiązane zamówienia i produkty
@@ -105,12 +133,33 @@ class CommentsViewSet(viewsets.ModelViewSet):
     authentication_class = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     lookup_field = "id"
-
+    
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
     
     def get_queryset(self):
-       
+        queryset = Comment.objects.all().order_by('-id')
+        user_name = self.request.user.username
+        body = f"Hello, {self.request.user.username}!\n\nThis is a test email."
+
+        for obj in queryset:
+            body += f"\n produkt id: {obj.id}"
+        
+        
+        
+        
+        
+        send_mail(
+        'Subject here',
+        body,
+        'from@example.com',
+        ['250601@student.pwr.edu.pl'],
+        fail_silently=False,
+        )
+
+
+
+
         queryset = Comment.objects.all().order_by('-id')
         product = self.request.query_params.get('product') 
         owner = self.request.query_params.get('owner') 
