@@ -1,8 +1,8 @@
 # Jopek-backend
-corresponding frontend: https://github.com/Hakkene/Jopek-frontend
+corresponding frontend: https://github.com/Hakkene/Jopek-frontend  
 [![Coverage Status](https://coveralls.io/repos/github/Hakkene/Jopek-backend/badge.svg?branch=main)](https://coveralls.io/github/Hakkene/Jopek-backend?branch=main)
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/Hakkene/Jopek-backend/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/Hakkene/Jopek-backend/tree/main)
+
 
 This is a back-end eCommerce web app built using **Django**, deisgned for a board game shop with rental service and powered by a **PostgreSQL** db. Its highlight features include:
 - Product Management: Fetch all products or filter by category, name, or rental availability. Retrieve product details by slug.
